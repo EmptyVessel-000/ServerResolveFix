@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.emptyvessel.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ServerNameResolverMixin",
+    "ServerStatusPingerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
