@@ -47,12 +47,12 @@ $env:JAVA_HOME="C:\Program Files\Java\jdk-21.0.12"
 | 文件 | 覆盖版本 | NeoForge |
 |---|---|---|
 | serverresolvefix-1.0.0+mc1.20.2-1.20.4.jar | 1.20.2–1.20.4 | 20.2.0+ |
-| serverresolvefix-1.0.0+mc1.20.5-1.20.6.jar | 1.20.5–1.20.6 | 20.5.0+ |
-| serverresolvefix-1.0.0+mc1.21.x.jar | 1.21–1.21.11 | 21.0.0+ |
+| serverresolvefix-1.0.0+mc1.20.6.jar | 1.20.6 | 20.6.0+ |
+| serverresolvefix-1.0.0+mc1.21.x.jar | 1.21–1.21.11（不含 1.21.2） | 21.0.0+ |
 
 build.gradle 里 targets 的 label 字段决定名字，jar 任务的 archiveVersion 置空避免重复版本号。产物手动复制到 dist/（没有自动复制任务）。
 
-NeoForge 依赖范围按线放宽到 20.2.0+ / 20.5.0+ / 21.0.0+（原来分别卡在构建目标 20.4.253 / 20.6.144 / 21.1.265），minecraft 的 versionRange 保持 [1.20.2,1.20.5) / [1.20.5,1.21) / [1.21,1.22)。1.21.x 那条不逐版本实测，按上游 API 稳定处理。
+NeoForge 依赖范围按线放宽到 20.2.0+ / 20.6.0+ / 21.0.0+（原来分别卡在构建目标 20.4.253 / 20.6.144 / 21.1.265），minecraft 的 versionRange 是 [1.20.2,1.20.5) / [1.20.6,1.21) / [1.21,1.22)。1.21.x 那条不逐版本实测，按上游 API 稳定处理。
 
 ## 已发布位置
 
@@ -75,3 +75,8 @@ NeoForge 依赖范围按线放宽到 20.2.0+ / 20.5.0+ / 21.0.0+（原来分别�
 - 上传文件给 playwright MCP 时必须放在 C:\Users\EmptyVessel\.dsh 下。
 - MC百科的 MODID、标签、关键词都是 bootstrap-tagsinput，直接改 value 会被清掉，必须用真实键盘输入 + 回车。封面的隐藏 file input 直接塞文件只得到本地预览，必须走 label 触发 file chooser 再点"更新封面"。
 - MC百科验证码是图形识别题，模型不可靠，需要人来填。
+## mixin 兼容级别
+
+按档生成：src/main/templates/serverresolvefix.mixins.json 里写 ${mixin_compat}，build.gradle 的 targets 各档给 mixinCompat（1.20.4 档 JAVA_17，另两档 JAVA_21）。必须与编译出的 class 文件版本一致，否则 Mixin 拒绝加载。
+
+1.20.5 与 1.21.2 被排除：这两个版本的 NeoForge 只有 -beta 发布（20.5.x 全 beta，21.2.x 仅两个 beta），不对它们做兼容声明。

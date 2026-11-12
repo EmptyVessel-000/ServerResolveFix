@@ -16,9 +16,9 @@ tasks.named('wrapper', Wrapper).configure {
 
 // One build per target line, selected with -Pmc=<minecraft version>.
 def targets = [
-        '1.20.4': [neo: '20.4.253', neoRange: '[20.2.0,)', java: 17, range: '[1.20.2,1.20.5)', label: '1.20.2-1.20.4'],
-        '1.20.6': [neo: '20.6.144', neoRange: '[20.5.0,)', java: 21, range: '[1.20.5,1.21)', label: '1.20.5-1.20.6'],
-        '1.21.1': [neo: '21.1.265', neoRange: '[21.0.0,)', java: 21, range: '[1.21,1.22)', label: '1.21.x'],
+        '1.20.4': [neo: '20.4.253', neoRange: '[20.2.0,)', java: 17, mixinCompat: 'JAVA_17', range: '[1.20.2,1.20.5)', label: '1.20.2-1.20.4'],
+        '1.20.6': [neo: '20.6.144', neoRange: '[20.6.0,)', java: 21, mixinCompat: 'JAVA_21', range: '[1.20.6,1.21)', label: '1.20.6'],
+        '1.21.1': [neo: '21.1.265', neoRange: '[21.0.0,)', java: 21, mixinCompat: 'JAVA_21', range: '[1.21,1.22)', label: '1.21.x'],
 ]
 def mcTarget = project.findProperty('mc') ?: '1.21.1'
 def target = targets[mcTarget]
@@ -166,6 +166,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            mixin_compat           : target.mixinCompat,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
